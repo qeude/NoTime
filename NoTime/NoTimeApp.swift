@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 @main
 struct NoTimeApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+  var body: some Scene {
+    WindowGroup {
+      ContentView()
     }
+  }
 }

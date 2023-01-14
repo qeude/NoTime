@@ -10,29 +10,39 @@ import SwiftUI
 struct Card: Identifiable, Equatable {
   let id: UUID
   let name: String
+  let test: Double = Double.random(in: -8..<8)
+
+  static func ==(lhs: Card, rhs: Card) -> Bool {
+    return lhs.id == rhs.id
+  }
 }
 
 struct CardDeckView: View {
-  @State private var currentIndex: Range<Array<Card>.Index>.Element
   @Binding private var cards: [Card]
 
   init(cards: Binding<[Card]>) {
     self._cards = cards
-    self._currentIndex = State<Range<Array<Card>.Index>.Element>(initialValue: cards.startIndex)
   }
 
   var body: some View {
     ZStack {
-      ForEach(Array(zip(cards.indices.reversed(), cards)), id:\.1.id) { (index, value) in
-        let relativeIndex = self.cards.distance(from: self.currentIndex, to: index)
-        CardView(title: value.name, allowsInteractions: relativeIndex == 0)
+      ForEach(cards, id: \.id) { value in
+        let isTopCard = value.id == cards.last?.id
+        CardView(title: value.name, allowsInteractions: isTopCard)
           .onSwipe { direction in
-            cards.removeLast()
+            switch direction {
+            case .left:
+              guard let lastCard = cards.popLast() else { return }
+              cards.insert(lastCard, at: 0)
+            case .right:
+              cards.removeLast()
+            }
+
           }
-          .rotationEffect(Angle(degrees: Double.random(in: -8..<8)))
+          .rotationEffect(Angle(degrees: value.test))
       }
     }
-    .padding(.vertical, 250)
+    .padding(.vertical, 210)
     .padding(.horizontal, 110)
   }
 }

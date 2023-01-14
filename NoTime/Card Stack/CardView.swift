@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct CardView: View {
   private let title: String
@@ -24,8 +25,9 @@ struct CardView: View {
   var body: some View {
     GeometryReader { geo in
       Text(title)
+        .font(.headline)
         .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
-        .background(Color.yellow)
+        .background(Colors.Background.accent)
         .cornerRadius(15)
         .shadow(color: Color.black.opacity(0.2), radius: 2)
         .offset(self.translation)
@@ -45,17 +47,22 @@ struct CardView: View {
       .onEnded { value in
         self.translation = value.translation
         if let direction = self.swipeDirection(geometry) {
-
           withAnimation { self.onSwipe(direction) }
+          withAnimation(Animation.default.delay(0.25)) {
+            self.dragGestureStartPoint = .zero
+            self.translation = .zero
+          }
         } else {
-          withAnimation { self.dragGestureStartPoint = .zero }
-          withAnimation { self.translation = .zero }
+          withAnimation {
+            self.dragGestureStartPoint = .zero
+            self.translation = .zero
+          }
         }
       }
   }
 
   private func rotation(_ geometry: GeometryProxy) -> Angle {
-    let factor: CGFloat = 30
+    let factor: CGFloat = 20
     let scale = geometry.size.height / factor
     let value = (dragGestureStartPoint.y / scale) - (factor / 2)
     return .degrees(
