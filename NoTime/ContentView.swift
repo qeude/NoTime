@@ -5,55 +5,81 @@
 //  Created by Quentin Eude on 24/12/2022.
 //
 
-import SwiftUI
 import DesignSystem
+import SwiftUI
+import Models
 
 struct ContentView: View {
-  @State private var cards = [
-    Card(id: UUID(), name: "Santa Claus"),
-    Card(id: UUID(), name: "Doudi"),
-    Card(id: UUID(), name: "Fireman"),
-    Card(id: UUID(), name: "Banana"),
-    Card(id: UUID(), name: "Zidane"),
-    Card(id: UUID(), name: "Charles Leclerc"),
-    Card(id: UUID(), name: "The Weekend"),
-    Card(id: UUID(), name: "Spongebob"),
-    Card(id: UUID(), name: "Pikachu"),
-    Card(id: UUID(), name: "Naruto"),
-    Card(id: UUID(), name: "Kratos"),
-    Card(id: UUID(), name: "Isaac"),
-    Card(id: UUID(), name: "Domingo"),
-  ].shuffled()
-  
+  @State private var selectedIndex: Int = 0
+  @State private var teams: [Team] = [
+    Team(name: "Team 1"),
+    Team(name: "Team 2")
+  ]
+  @State private var playerToAdd: String = ""
+
   var body: some View {
-    VStack {
-      CardDeckView(cards: $cards)
-      Button {
-        resetCards()
-      } label: {
-        Text("Reset cards")
+    VStack(alignment: .center) {
+      Text("No Time")
+        .font(.largeTitle)
+        .fontWeight(.bold)
+      SegmentedControl(selectedIndex: $selectedIndex, items: $teams, keyPath: \.name) {
+        withAnimation {
+          teams.append(
+            Team(name: "Team \(teams.count + 1)")
+          )
+        }
       }
-      .buttonStyle(.designSystem)
+      .padding(8)
+      currentTeam
+      Spacer()
+      Button("Start game") {
+        teams.append(
+          Team(name: "Team \(teams.count + 1)")
+        )
+      }
+      .buttonStyle(.designSystem(.roundedRectangle))
     }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
 
-  private func resetCards() {
-    cards = [
-      Card(id: UUID(), name: "Santa Claus"),
-      Card(id: UUID(), name: "Doudi"),
-      Card(id: UUID(), name: "Fireman"),
-      Card(id: UUID(), name: "Banana"),
-      Card(id: UUID(), name: "Zidane"),
-      Card(id: UUID(), name: "Charles Leclerc"),
-      Card(id: UUID(), name: "The Weekend"),
-      Card(id: UUID(), name: "Spongebob"),
-      Card(id: UUID(), name: "Pikachu"),
-      Card(id: UUID(), name: "Naruto"),
-      Card(id: UUID(), name: "Kratos"),
-      Card(id: UUID(), name: "Isaac"),
-      Card(id: UUID(), name: "Domingo"),
-    ].shuffled()
+  @ViewBuilder private var currentTeam: some View {
+    var selectedTeam = teams[selectedIndex]
+    VStack(alignment: .leading, spacing: 8) {
+      Text("Players")
+        .font(.title)
+        .fontWeight(.bold)
+      if selectedTeam.persons.isEmpty {
+        Text("No player yet in this team.")
+      } else {
+        ForEach(Array(selectedTeam.persons.enumerated()), id: \.1) { index, person in
+          HStack {
+            Text(person)
+            Button {
+              teams[selectedIndex].persons.remove(at: index)
+            } label: {
+              Image(systemName: "xmark")
+            }
+          }
+          .padding(6)
+          .background(
+            RoundedRectangle(cornerRadius: 8).fill(Colors.Background.accent)
+          )
+        }
+      }
+      Spacer()
+      HStack {
+        TextField("Add a player", text: $playerToAdd)
+        Button {
+          teams[selectedIndex].persons.append(playerToAdd)
+        } label: {
+          Image(systemName: "arrow.right")
+        }
+        .buttonStyle(.designSystem(.circle))
+      }
+    }
+    .padding()
   }
+
 }
 
 struct ContentView_Previews: PreviewProvider {
