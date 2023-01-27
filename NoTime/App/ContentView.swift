@@ -20,8 +20,6 @@ struct ContentView: View {
   var body: some View {
     VStack(alignment: .center) {
       Text("No Time")
-        .font(.largeTitle)
-        .fontWeight(.bold)
       SegmentedControl(selectedIndex: $selectedIndex, items: $teams, keyPath: \.name) {
         withAnimation {
           teams.append(
@@ -37,9 +35,16 @@ struct ContentView: View {
           Team(name: "Team \(teams.count + 1)")
         )
       }
-      .buttonStyle(.designSystem(.roundedRectangle))
+      .buttonStyle(.designSystem(.primary))
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .onAppear {
+      for familyName in UIFont.familyNames {
+          for fontName in UIFont.fontNames(forFamilyName: familyName ) {
+              print("\(familyName) : \(fontName)")
+          }
+      }
+    }
   }
 
   @ViewBuilder private var currentTeam: some View {
@@ -62,7 +67,7 @@ struct ContentView: View {
           }
           .padding(6)
           .background(
-            RoundedRectangle(cornerRadius: 8).fill(Colors.Background.accent)
+            RoundedRectangle(cornerRadius: 8).fill(Color.primary500)
           )
         }
       }
@@ -74,7 +79,7 @@ struct ContentView: View {
         } label: {
           Image(systemName: "arrow.right")
         }
-        .buttonStyle(.designSystem(.circle))
+        .buttonStyle(.designSystem(.primary))
       }
     }
     .padding()

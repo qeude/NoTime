@@ -64,7 +64,7 @@ public struct SegmentedControl<T>: View {
         }
         .background {
           Capsule()
-            .fill(Colors.Background.accent)
+            .fill(Color.primary500)
         }
         .clipShape(Capsule())
       }
@@ -74,7 +74,7 @@ public struct SegmentedControl<T>: View {
         } label: {
           Image(systemName: "plus")
         }
-        .buttonStyle(.designSystem(.circle))
+        .buttonStyle(.designSystem(.primary))
       }
     }
   }

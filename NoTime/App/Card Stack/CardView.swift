@@ -27,7 +27,7 @@ struct CardView: View {
       Text(title)
         .font(.headline)
         .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
-        .background(Colors.Background.accent)
+        .background(Color.primary500)
         .cornerRadius(15)
         .shadow(color: Color.black.opacity(0.2), radius: 2)
         .offset(self.translation)

@@ -10,18 +10,10 @@ public struct DesignSystemButtonStyle: ButtonStyle {
     return isPressed || tapAnimation ? Constants.Offset.pressed : Constants.Offset.default
   }
 
-  private var backgroundColor: Color {
-    isEnabled ? Colors.Button.Background.primary : Colors.Button.Background.disabled
-  }
-
-  private var textColor: Color {
-    isEnabled ? Colors.Button.Text.dark : Colors.Button.Text.disabled
-  }
-
   public func makeBody(configuration: Self.Configuration) -> some View {
     return configuration.label
-      .fontWeight(.semibold)
-      .foregroundColor(textColor)
+      .textStyle(.designSystem(.body(.bold)))
+      .foregroundColor(style.textColor(isEnabled: isEnabled))
       .offset(y: offset(isPressed: configuration.isPressed))
       .padding(Constants.padding)
       .background(background(configuration: configuration))
@@ -39,31 +31,47 @@ public struct DesignSystemButtonStyle: ButtonStyle {
   }
 
   @ViewBuilder private func background(configuration: Self.Configuration) -> some View {
-    switch style {
-    case .roundedRectangle:
-      ZStack {
-        if isEnabled {
-          RoundedRectangle(cornerRadius: Constants.cornerRadius).fill(Colors.Button.Background.primaryAlt)
-        }
-        RoundedRectangle(cornerRadius: Constants.cornerRadius).fill(backgroundColor)
-          .offset(y: offset(isPressed: configuration.isPressed))
+    ZStack {
+      if isEnabled {
+        RoundedRectangle(cornerRadius: Constants.cornerRadius).fill(style.shadowColor(isEnabled: isEnabled))
       }
-    case .circle:
-      ZStack {
-        if isEnabled {
-          Circle().fill(Colors.Button.Background.primaryAlt)
-        }
-        Circle().fill(backgroundColor)
-          .offset(y: offset(isPressed: configuration.isPressed))
-      }
+      RoundedRectangle(cornerRadius: Constants.cornerRadius).fill(style.backgroundColor(isEnabled: isEnabled))
+        .offset(y: offset(isPressed: configuration.isPressed))
     }
   }
 }
 
 extension DesignSystemButtonStyle {
   public enum Style {
-    case roundedRectangle
-    case circle
+    case primary
+    case secondary
+
+    func backgroundColor(isEnabled: Bool) -> Color {
+      switch self {
+      case .primary:
+        return isEnabled ? Color.primary500 : Color.primary300
+      case .secondary:
+        return isEnabled ? Color.dark300 : Color.light300
+      }
+    }
+
+    func shadowColor(isEnabled: Bool) -> Color {
+      switch self {
+      case .primary:
+        return isEnabled ? Color.primary700 : Color.primary300
+      case .secondary:
+        return isEnabled ? Color.dark400 : Color.light300
+      }
+    }
+
+    func textColor(isEnabled: Bool) -> Color {
+      switch self {
+      case .primary:
+        return isEnabled ? .black : Color.primary100
+      case .secondary:
+        return isEnabled ? .white : Color.light200
+      }
+    }
   }
 }
 
@@ -72,10 +80,10 @@ extension DesignSystemButtonStyle {
   private enum Constants {
     static let padding: CGFloat = 12
     static let cornerRadius: CGFloat = 12
-    static let animationDuration: CGFloat = 0.2
+    static let animationDuration: CGFloat = 0.1
     enum Offset {
       static let `default`: CGFloat = -4
-      static let pressed: CGFloat = 0
+      static let pressed: CGFloat = -1
     }
   }
 }
@@ -91,54 +99,54 @@ extension ButtonStyle where Self == DesignSystemButtonStyle {
 struct DesignSystemButtonStyle_Previews: PreviewProvider {
   static var previews: some View {
     Group {
-      Button {
-      } label: {
-        Text("Design System Button")
+      HStack {
+        Button {
+        } label: {
+          Text("Button")
+        }
+        .previewLayout(
+          .fixed(
+            width: 200,
+            height: 100)
+        )
+        Button {
+        } label: {
+          Text("Button")
+        }
+        .previewLayout(
+          .fixed(
+            width: 200,
+            height: 100)
+        )
+        .disabled(true)
       }
-      .previewLayout(
-        .fixed(
-          width: 200,
-          height: 100)
-      )
-      .buttonStyle(.designSystem(.roundedRectangle))
-      .previewDisplayName("Rounded Rectangle Enabled")
-      Button {
-      } label: {
-        Text("Design System Button")
+      .buttonStyle(.designSystem(.primary))
+      .previewDisplayName("Primary")
+      HStack {
+        Button {
+        } label: {
+          Text("Button")
+        }
+        .previewLayout(
+          .fixed(
+            width: 200,
+            height: 100)
+        )
+        Button {
+        } label: {
+          Text("Button")
+        }
+        .previewLayout(
+          .fixed(
+            width: 200,
+            height: 100)
+        )
+        .disabled(true)
       }
-      .previewLayout(
-        .fixed(
-          width: 200,
-          height: 100)
-      )
-      .disabled(true)
-      .buttonStyle(.designSystem(.roundedRectangle))
-      .previewDisplayName("Rounded Rectangle Disabled")
-      Button {
-      } label: {
-        Image(systemName: "plus")
-          .fontWeight(.bold)
-      }
-      .previewLayout(
-        .fixed(
-          width: 200,
-          height: 100)
-      )
-      .buttonStyle(.designSystem(.circle))
-      .previewDisplayName("Circle Enabled")
-      Button {
-      } label: {
-        Image(systemName: "plus")
-          .fontWeight(.bold)
-      }
-      .previewLayout(
-        .fixed(
-          width: 200,
-          height: 100)
-      )
-      .disabled(true)
-      .buttonStyle(.designSystem(.circle))
-      .previewDisplayName("Circle Disabled")
+      .buttonStyle(.designSystem(.secondary))
+      .previewDisplayName("Secondary")
     }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .background(Color.dark500)
   }
 }

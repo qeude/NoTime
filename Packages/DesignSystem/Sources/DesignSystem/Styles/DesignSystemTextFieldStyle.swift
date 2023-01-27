@@ -6,7 +6,7 @@ public struct DesignSystemTextFieldStyle: TextFieldStyle {
       .padding(8)
       .overlay {
         RoundedRectangle(cornerRadius: 8, style: .continuous)
-          .stroke(Colors.Stroke.base, lineWidth: 1)
+          .stroke(Color.dark400, lineWidth: 1)
       }
   }
 }

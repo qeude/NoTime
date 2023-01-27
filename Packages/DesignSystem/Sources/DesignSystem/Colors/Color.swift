@@ -1,0 +1,33 @@
+import Combine
+import SwiftUI
+
+extension Color {
+  public static let primary100 = Color(hex: 0xF8FCE9)
+  public static let primary200 = Color(hex: 0xEBF5BD)
+  public static let primary300 = Color(hex: 0xDEEE91)
+  public static let primary400 = Color(hex: 0xD1E765)
+  public static let primary500 = Color(hex: 0xC4E039)
+  public static let primary600 = Color(hex: 0xAAC61F)
+  public static let primary700 = Color(hex: 0x859A18)
+  public static let primary800 = Color(hex: 0x5F6E11)
+  public static let dark100 = Color(hex: 0x56648D)
+  public static let dark200 = Color(hex: 0x434E6C)
+  public static let dark300 = Color(hex: 0x30374D)
+  public static let dark400 = Color(hex: 0x1D212E)
+  public static let dark500 = Color(hex: 0x090B11)
+  public static let light100 = Color(hex: 0xCAD0E1)
+  public static let light200 = Color(hex: 0xB5BED6)
+  public static let light300 = Color(hex: 0x9EAACB)
+  public static let light400 = Color(hex: 0x8D98B5)
+  public static let light500 = Color(hex: 0x7A839D)
+  public static let error100 = Color(hex: 0xF9E5E4)
+  public static let error200 = Color(hex: 0xF3C9C7)
+  public static let error300 = Color(hex: 0xEEA7A4)
+  public static let error400 = Color(hex: 0xE87D77)
+  public static let error500 = Color(hex: 0xE23B28)
+  public static let success100 = Color(hex: 0xEBF6E4)
+  public static let success200 = Color(hex: 0xD6EEC5)
+  public static let success300 = Color(hex: 0xBFE5A1)
+  public static let success400 = Color(hex: 0xA5DC73)
+  public static let success500 = Color(hex: 0x86D313)
+}
