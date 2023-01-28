@@ -1,35 +1,62 @@
 import SwiftUI
 
-public struct DesignSystemTextFieldStyle: TextFieldStyle {
+
+public struct DesignSystemTextField: View {
+  let tile: String
+  @Binding var text: String
+  let placeholder: String?
+
+  public init(tile: String, text: Binding<String>, placeholder: String? = nil) {
+    self.tile = tile
+    self._text = text
+    self.placeholder = placeholder
+  }
+
+  public var body: some View {
+    if let placeholder {
+      TextField("", text: $text, prompt: Text(placeholder).foregroundColor(.white))
+        .textFieldStyle(.designSystem)
+    } else {
+      TextField("", text: $text, prompt: nil)
+        .textFieldStyle(.designSystem)
+    }
+  }
+}
+
+private struct DesignSystemTextFieldStyle: TextFieldStyle {
   public func _body(configuration: TextField<Self._Label>) -> some View {
     configuration
-      .padding(8)
+      .textStyle(.designSystem(.body()))
+      .padding(12)
+      .frame(minHeight: 44)
+      .foregroundColor(.white)
       .overlay {
         RoundedRectangle(cornerRadius: 8, style: .continuous)
-          .stroke(Color.dark400, lineWidth: 1)
+          .stroke(Color.dark300, lineWidth: 2)
       }
   }
 }
 
 // MARK: Convenient usage
 extension TextFieldStyle where Self == DesignSystemTextFieldStyle {
-  public static var designSystem: Self {
+  static var designSystem: Self {
     return .init()
   }
 }
 
 // MARK: Previews
-struct DesignSystemTextFieldStyle_Previews: PreviewProvider {
+struct DesignSystemTextField_Previews: PreviewProvider {
   struct PreviewsContainer: View {
-      @State private var text = "Test"
+      @State private var text = ""
 
       var body: some View {
-        TextField("Hello world", text: $text)
-          .textFieldStyle(.designSystem)
+        DesignSystemTextField(tile: "", text: $text, placeholder: "Add new player...")
       }
   }
 
   static var previews: some View {
     PreviewsContainer()
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color.dark500)
   }
 }

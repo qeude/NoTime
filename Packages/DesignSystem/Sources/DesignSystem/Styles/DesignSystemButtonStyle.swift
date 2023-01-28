@@ -38,6 +38,7 @@ public struct DesignSystemButtonStyle: ButtonStyle {
       RoundedRectangle(cornerRadius: Constants.cornerRadius).fill(style.backgroundColor(isEnabled: isEnabled))
         .offset(y: offset(isPressed: configuration.isPressed))
     }
+    .frame(minWidth: 44, minHeight: 44)
   }
 }
 

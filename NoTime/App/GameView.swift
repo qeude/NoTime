@@ -9,7 +9,7 @@ import DesignSystem
 import SwiftUI
 import Models
 
-struct ContentView: View {
+struct GameView: View {
   @State private var selectedIndex: Int = 0
   @State private var teams: [Team] = [
     Team(name: "Team 1"),
@@ -18,7 +18,7 @@ struct ContentView: View {
   @State private var playerToAdd: String = ""
 
   var body: some View {
-    VStack(alignment: .center) {
+    VStack(alignment: .center, spacing: 16) {
       Text("No Time")
       SegmentedControl(selectedIndex: $selectedIndex, items: $teams, keyPath: \.name) {
         withAnimation {
@@ -30,25 +30,24 @@ struct ContentView: View {
       .padding(8)
       currentTeam
       Spacer()
-      Button("Start game") {
+      Button {
         teams.append(
           Team(name: "Team \(teams.count + 1)")
         )
+      } label: {
+        Text("Start game")
+          .frame(maxWidth: .infinity)
       }
       .buttonStyle(.designSystem(.primary))
     }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .onAppear {
-      for familyName in UIFont.familyNames {
-          for fontName in UIFont.fontNames(forFamilyName: familyName ) {
-              print("\(familyName) : \(fontName)")
-          }
-      }
-    }
+    .navigationTitle("Create your teams ❤️")
+    .navigationBarTitleDisplayMode(.large)
+    .padding()
+    .applyTheme()
   }
 
   @ViewBuilder private var currentTeam: some View {
-    var selectedTeam = teams[selectedIndex]
+    let selectedTeam = teams[selectedIndex]
     VStack(alignment: .leading, spacing: 8) {
       Text("Players")
         .font(.title)
@@ -73,7 +72,7 @@ struct ContentView: View {
       }
       Spacer()
       HStack {
-        TextField("Add a player", text: $playerToAdd)
+        DesignSystemTextField(tile: "", text: $playerToAdd, placeholder: "Add a new player")
         Button {
           teams[selectedIndex].persons.append(playerToAdd)
         } label: {
@@ -82,13 +81,13 @@ struct ContentView: View {
         .buttonStyle(.designSystem(.primary))
       }
     }
-    .padding()
   }
 
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct GameView_Previews: PreviewProvider {
   static var previews: some View {
-    ContentView()
+    GameView()
+      .background(Color.dark500)
   }
 }

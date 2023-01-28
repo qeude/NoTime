@@ -5,14 +5,20 @@
 //  Created by Quentin Eude on 24/12/2022.
 //
 
-import SwiftUI
 import DesignSystem
+import Env
+import SwiftUI
 
 @main
 struct NoTimeApp: App {
+  @StateObject private var router = Router()
+
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      HomeView()
+        .applyTheme()
+        .environmentObject(router)
     }
   }
 }
+

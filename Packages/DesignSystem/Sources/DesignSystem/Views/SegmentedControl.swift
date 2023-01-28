@@ -16,15 +16,24 @@ public struct SegmentedControl<T>: View {
     self.addHandler = addHandler
   }
 
+  var outerShape: some Shape {
+    RoundedRectangle(cornerRadius: 15)
+  }
+
+  var innerShape: some Shape {
+    RoundedRectangle(cornerRadius: 10)
+  }
+
   public var body: some View {
-    HStack {
+    HStack(alignment: .center) {
       ScrollViewReader { proxy in
         ScrollView(.horizontal, showsIndicators: false) {
-          HStack(spacing: 0) {
+          HStack(spacing: 4) {
             ForEach(items.indices, id: \.self) { index in
               Text(items[index][keyPath: keyPath])
-                .fontWeight(.semibold)
-                .padding(.horizontal)
+                .foregroundColor(selectedIndex == index ? .black : .white)
+                .textStyle(.designSystem(.body(.bold)))
+                .padding(.horizontal, 6)
                 .padding(.vertical, 8.0)
                 .matchedGeometryEffect(
                   id: index,
@@ -51,11 +60,11 @@ public struct SegmentedControl<T>: View {
         .frame(
           maxWidth: scrollViewContentSize.width
         )
-        .clipShape(Capsule())
+        .clipShape(innerShape)
         .padding(6.0)
         .background {
-          Capsule()
-            .fill(Material.thin)
+          innerShape
+            .fill(Color.primary500)
             .matchedGeometryEffect(
               id: selectedIndex,
               in: namespace,
@@ -63,11 +72,12 @@ public struct SegmentedControl<T>: View {
             )
         }
         .background {
-          Capsule()
-            .fill(Color.primary500)
+          outerShape
+            .fill(Color.dark400)
         }
-        .clipShape(Capsule())
+        .clipShape(outerShape)
       }
+      .frame(minHeight: 44)
       if let addHandler {
         Button {
           addHandler()
@@ -83,17 +93,20 @@ public struct SegmentedControl<T>: View {
 struct SegmentedControl_Previews: PreviewProvider {
   struct PreviewsContainer: View {
     @State private var selectedIndex = 1
-    @State private var teams = ["Team 1", "Team 2"]
+    @State private var teams = ["Team 1", "Team 2", "Team 3", "Team 4"]
     var body: some View {
       SegmentedControl(
         selectedIndex: $selectedIndex,
         items: $teams,
-        keyPath: \.self
+        keyPath: \.self,
+        addHandler: {}
       )
     }
   }
 
   static var previews: some View {
     PreviewsContainer()
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color.dark500)
   }
 }
