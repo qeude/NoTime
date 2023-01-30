@@ -68,7 +68,7 @@ extension DesignSystemButtonStyle {
     func textColor(isEnabled: Bool) -> Color {
       switch self {
       case .primary:
-        return isEnabled ? .black : Color.primary100
+        return isEnabled ? .black : Color.light400
       case .secondary:
         return isEnabled ? .white : Color.light200
       }

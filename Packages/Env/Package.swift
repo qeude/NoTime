@@ -13,11 +13,15 @@ let package = Package(
             name: "Env",
             targets: ["Env"]),
     ],
-    dependencies: [],
+    dependencies: [
+      .package(name: "Models", path: "../Models"),
+    ],
     targets: [
         .target(
             name: "Env",
-            dependencies: []),
+            dependencies: [
+              .product(name: "Models", package: "Models"),
+            ]),
         .testTarget(
             name: "EnvTests",
             dependencies: ["Env"]),

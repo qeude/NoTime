@@ -7,6 +7,7 @@
 
 import DesignSystem
 import Env
+import Models
 import SwiftUI
 
 struct HomeView: View {
@@ -22,20 +23,20 @@ struct HomeView: View {
         VStack(spacing: 24) {
           Button {
           } label: {
-            Text("About")
+            Text(R.string.localizable.homeAbout())
               .frame(maxWidth: .infinity)
           }
           .buttonStyle(.designSystem(.secondary))
           Button {
           } label: {
-            Text("How to play")
+            Text(R.string.localizable.homeHowToPlay())
               .frame(maxWidth: .infinity)
           }
           .buttonStyle(.designSystem(.secondary))
           Button {
-            router.navigate(to: .createTeams)
+            startNewGame()
           } label: {
-            Text("Start a new game")
+            Text(R.string.localizable.homeCreateNewGame())
               .frame(maxWidth: .infinity)
           }
           .buttonStyle(.designSystem(.primary))
@@ -43,17 +44,22 @@ struct HomeView: View {
         .fixedSize(horizontal: true, vertical: false)
         Spacer()
       }
-      .navigationTitle("No Time!")
+      .navigationTitle("\(R.string.localizable.sharedAppName())!")
       .navigationBarTitleDisplayMode(.large)
       .applyTheme()
       .withAppRouter()
     }
+  }
+
+  private func startNewGame() {
+    router.navigate(to: .createTeams)
   }
 }
 
 struct HomeView_Previews: PreviewProvider {
   static var previews: some View {
     HomeView()
+      .environmentObject(Router())
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(Color.dark500)
   }

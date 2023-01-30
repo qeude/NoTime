@@ -1,0 +1,23 @@
+// MARK: Common
+"shared.ok" = "OK";
+"shared.yes" = "Oui";
+"shared.no" = "Non";
+"shared.cancel" = "Annuler";
+"shared.app.name" = "No time";
+"shared.continue" = "Continuer";
+
+// MARK: Home Page
+"home.about" = "À propos";
+"home.howToPlay" = "Règles du jeu";
+"home.createNewGame" = "Créer une nouvelle partie";
+
+// MARK: Create teams
+"createTeams.title" = "Créer vos équipes ❤️";
+"createTeams.newTeamPrefix" = "Équipe";
+"createTeams.addPlayer.placeholder" = "Ajouter un joueur…";
+"createTeams.teamName.placeholder" = "Nom de l'équipe…";
+"createTeams.removeTeam.title" = "Supprimer %@";
+"createTeams.removeTeam.message" = "Voulez-vous vraiment supprimer l'équipe \"%@\" ?";
+"createTeams.teamFull" = "L'équipe est complète.";
+"createTeams.noPlayer" = "Aucun joueur dans cette équipe.";
+"createTeams.warning.notValid" = "Toutes les équipes doivent être composées d'au moins deux joueurs. (%@)";

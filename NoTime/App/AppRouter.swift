@@ -14,7 +14,7 @@ extension View {
     navigationDestination(for: RouterDestinations.self) { destination in
       switch destination {
       case .createTeams:
-        GameView()
+        CreateTeamsView()
       default:
         EmptyView()
       }

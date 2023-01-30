@@ -14,7 +14,7 @@ public struct DesignSystemTextField: View {
 
   public var body: some View {
     if let placeholder {
-      TextField("", text: $text, prompt: Text(placeholder).foregroundColor(.white))
+      TextField("", text: $text, prompt: Text(placeholder).foregroundColor(Color.dark200))
         .textFieldStyle(.designSystem)
     } else {
       TextField("", text: $text, prompt: nil)

@@ -1,0 +1,23 @@
+// MARK: Common
+"shared.ok" = "OK";
+"shared.yes" = "Yes";
+"shared.no" = "No";
+"shared.cancel" = "Cancel";
+"shared.app.name" = "No time";
+"shared.continue" = "Continue";
+
+// MARK: Home Page
+"home.about" = "About";
+"home.howToPlay" = "How to play";
+"home.createNewGame" = "Start a new game";
+
+// MARK: Create teams
+"createTeams.title" = "Create your teams ❤️";
+"createTeams.newTeamPrefix" = "Team";
+"createTeams.addPlayer.placeholder" = "Add a player…";
+"createTeams.teamName.placeholder" = "Team name…";
+"createTeams.removeTeam.title" = "Remove %@";
+"createTeams.removeTeam.message" = "Do you really want to remove the team \"%@\"?";
+"createTeams.teamFull" = "Team is full";
+"createTeams.noPlayer" = "No player yet in this team.";
+"createTeams.warning.notValid" = "All teams must be composed of at least two players. (%@)";

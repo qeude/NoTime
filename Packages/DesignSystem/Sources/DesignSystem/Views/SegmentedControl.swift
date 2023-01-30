@@ -4,16 +4,14 @@ public struct SegmentedControl<T>: View {
   @Binding var selectedIndex: Int
   @Binding var items: [T]
   let keyPath: KeyPath<T, String>
-  let addHandler: (() -> Void)?
 
   @Namespace var namespace
   @State private var scrollViewContentSize: CGSize = .zero
 
-  public init(selectedIndex: Binding<Int>, items: Binding<[T]>, keyPath: KeyPath<T, String>, addHandler: (() -> Void)? = nil) {
+  public init(selectedIndex: Binding<Int>, items: Binding<[T]>, keyPath: KeyPath<T, String>) {
     self._selectedIndex = selectedIndex
     self._items = items
     self.keyPath = keyPath
-    self.addHandler = addHandler
   }
 
   var outerShape: some Shape {
@@ -57,6 +55,11 @@ public struct SegmentedControl<T>: View {
             }
           )
         }
+        .onChange(of: selectedIndex, perform: { newValue in
+          withAnimation {
+            proxy.scrollTo(newValue, anchor: .center)
+          }
+        })
         .frame(
           maxWidth: scrollViewContentSize.width
         )
@@ -78,14 +81,6 @@ public struct SegmentedControl<T>: View {
         .clipShape(outerShape)
       }
       .frame(minHeight: 44)
-      if let addHandler {
-        Button {
-          addHandler()
-        } label: {
-          Image(systemName: "plus")
-        }
-        .buttonStyle(.designSystem(.primary))
-      }
     }
   }
 }
@@ -93,14 +88,14 @@ public struct SegmentedControl<T>: View {
 struct SegmentedControl_Previews: PreviewProvider {
   struct PreviewsContainer: View {
     @State private var selectedIndex = 1
-    @State private var teams = ["Team 1", "Team 2", "Team 3", "Team 4"]
+    @State private var teams = ["Team 1", "Team 2", "Team 3", "Team 4", "Team 4", "Team 4", "Team 4"]
     var body: some View {
       SegmentedControl(
         selectedIndex: $selectedIndex,
         items: $teams,
-        keyPath: \.self,
-        addHandler: {}
+        keyPath: \.self
       )
+      .border(.red)
     }
   }
 
